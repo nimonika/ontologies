@@ -1,0 +1,211 @@
+@prefix : <http://www.purl.org/FIspace/pedigree#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix ped: <http://www.purl.org/FIspace/pedigree#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <http://purl.org/FIspace/pedigree#> .
+
+<http://purl.org/FIspace/pedigree#> rdf:type owl:Ontology ;
+                                    
+                                    owl:imports <http://protege.stanford.edu/plugins/owl/dc/protege-dc.owl> ,
+                                                prov: .
+
+
+#################################################################
+#
+#    Object Properties
+#
+#################################################################
+
+
+###  http://purl.org/FIspace/pedigree#hasConsignmentInfo
+
+<http://purl.org/FIspace/pedigree#hasConsignmentInfo> rdf:type owl:FunctionalProperty ,
+                                                               owl:ObjectProperty ;
+                                                      
+                                                      rdfs:label "hasConsignmentInfo"@en ;
+                                                      
+                                                      rdfs:comment "The property identifies the set of EPCIS events related to the consignment for which the pedigree is created." .
+
+
+
+###  http://purl.org/FIspace/pedigree#hasPedigreeStatus
+
+<http://purl.org/FIspace/pedigree#hasPedigreeStatus> rdf:type owl:FunctionalProperty ,
+                                                              owl:ObjectProperty ;
+                                                     
+                                                     rdfs:label "hasPedigreeStatus"@en ;
+                                                     
+                                                     rdfs:comment "The property identfiies the creation status of the pedigree."@en .
+
+
+
+###  http://purl.org/FIspace/pedigree#hasProductInfo
+
+<http://purl.org/FIspace/pedigree#hasProductInfo> rdf:type owl:FunctionalProperty ,
+                                                           owl:ObjectProperty ;
+                                                  
+                                                  rdfs:label "hasProductInfo"@en ;
+                                                  
+                                                  rdfs:comment "The property identifies information about the products associated with the pedogree"@en .
+
+
+
+###  http://purl.org/FIspace/pedigree#hasReceivedPedigree
+
+<http://purl.org/FIspace/pedigree#hasReceivedPedigree> rdf:type owl:ObjectProperty ;
+                                                       
+                                                       rdfs:label "hasReceivedPedigree"@en ;
+                                                       
+                                                       rdfs:comment "The property associates a pedigree with any other pedigrees it has received from upstream or downstream partners."@en .
+
+
+
+###  http://purl.org/FIspace/pedigree#hasTransactionInfo
+
+<http://purl.org/FIspace/pedigree#hasTransactionInfo> rdf:type owl:FunctionalProperty ,
+                                                               owl:ObjectProperty ;
+                                                      
+                                                      rdfs:label "hasTransactionInfo"@en ;
+                                                      
+                                                      rdfs:comment "The property identifies the set of EPCIS events related to the transactions for which the consignment  for which the pedigree is created."@en .
+
+
+
+
+
+#################################################################
+#
+#    Data properties
+#
+#################################################################
+
+
+###  http://purl.org/FIspace/pedigree#creationTime
+
+<http://purl.org/FIspace/pedigree#creationTime> rdf:type owl:DatatypeProperty ,
+                                                         owl:FunctionalProperty ;
+                                                
+                                                rdfs:label "creationTime" ;
+                                                
+                                                rdfs:comment "The property specifies the creation time of the pedigree."@en ;
+                                                
+                                                rdfs:subPropertyOf prov:generatedAtTime .
+
+
+
+###  http://purl.org/FIspace/pedigree#hasSerialNumber
+
+<http://purl.org/FIspace/pedigree#hasSerialNumber> rdf:type owl:DatatypeProperty ,
+                                                            owl:FunctionalProperty ;
+                                                   
+                                                   rdfs:label "hasSerialNumber"@en ;
+                                                   
+                                                   rdfs:comment "This property identifies the serial number of the pedigree"@en .
+
+
+
+
+
+#################################################################
+#
+#    Classes
+#
+#################################################################
+
+
+###  http://purl.org/FIspace/pedigree#Pedigree
+
+<http://purl.org/FIspace/pedigree#Pedigree> rdf:type owl:Class ;
+                                            
+                                            rdfs:label "Pedigree"@en ;
+                                            
+                                            rdfs:subClassOf prov:Entity ,
+                                                            [ rdf:type owl:Class ;
+                                                              owl:intersectionOf ( [ rdf:type owl:Restriction ;
+                                                                                     owl:onProperty <http://purl.org/FIspace/pedigree#hasPedigreeStatus> ;
+                                                                                     owl:onClass <http://purl.org/FIspace/pedigree#PedigreeStatus> ;
+                                                                                     owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger
+                                                                                   ]
+                                                                                   [ rdf:type owl:Restriction ;
+                                                                                     owl:onProperty <http://purl.org/FIspace/pedigree#hasSerialNumber> ;
+                                                                                     owl:cardinality "1"^^xsd:nonNegativeInteger
+                                                                                   ]
+                                                                                 )
+                                                            ] ;
+                                            
+                                            dc:date ""^^xsd:dateTimeStamp ;
+                                            
+                                            dc:creator ""^^xsd:string ;
+                                            
+                                            rdfs:comment "A pedigree is an information artifact for exchanging traceability information between supply chain trading partners." .
+
+
+
+###  http://purl.org/FIspace/pedigree#PedigreeCreationService
+
+<http://purl.org/FIspace/pedigree#PedigreeCreationService> rdf:type owl:Class ;
+                                                           
+                                                           rdfs:subClassOf prov:Activity .
+
+
+
+###  http://purl.org/FIspace/pedigree#PedigreeCreator
+
+<http://purl.org/FIspace/pedigree#PedigreeCreator> rdf:type owl:Class ;
+                                                   
+                                                   rdfs:subClassOf prov:Organization .
+
+
+
+###  http://purl.org/FIspace/pedigree#PedigreeStatus
+
+<http://purl.org/FIspace/pedigree#PedigreeStatus> rdf:type owl:Class ;
+                                                  
+                                                  rdfs:label "PedigreeStatus"@en .
+
+
+
+
+
+#################################################################
+#
+#    Individuals
+#
+#################################################################
+
+
+###  http://purl.org/FIspace/pedigree#Final
+
+<http://purl.org/FIspace/pedigree#Final> rdf:type <http://purl.org/FIspace/pedigree#PedigreeStatus> ,
+                                                  owl:NamedIndividual ;
+                                         
+                                         rdfs:label "Final"@en .
+
+
+
+###  http://purl.org/FIspace/pedigree#Initial
+
+<http://purl.org/FIspace/pedigree#Initial> rdf:type <http://purl.org/FIspace/pedigree#PedigreeStatus> ,
+                                                    owl:NamedIndividual ;
+                                           
+                                           rdfs:label "Initial"@en .
+
+
+
+###  http://purl.org/FIspace/pedigree#Intermediate
+
+<http://purl.org/FIspace/pedigree#Intermediate> rdf:type <http://purl.org/FIspace/pedigree#PedigreeStatus> ,
+                                                         owl:NamedIndividual ;
+                                                
+                                                rdfs:label "Intermediate"@en .
+
+
+
+
+###  Generated by the OWL API (version 3.4.2) http://owlapi.sourceforge.net
+
