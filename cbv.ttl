@@ -1,0 +1,1024 @@
+@prefix : <http://purl.org/cbv#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <http://purl.org/cbv> .
+
+<http://purl.org/cbv> rdf:type owl:Ontology ;
+                      
+                      owl:imports <http://protege.stanford.edu/plugins/owl/dc/protege-dc.owl> .
+
+
+#################################################################
+#
+#    Annotation properties
+#
+#################################################################
+
+
+dc:creator dc:creator "Monika Solanki(m.solanki@aston.ac.uk)" .
+
+
+
+owl:versionInfo owl:versionInfo "1.1" .
+
+
+
+rdfs:comment rdf:type owl:AnnotationProperty ;
+             
+             rdfs:comment "The CBVVocab is an OWL ontology that captures the identifiers in CBV 1.0 specification. (http://www.gs1.org/gsmp/kc/epcglobal/cbv/cbv_1_0-standard-20101013.pdf). The current version, CBVVocab 1.1, includes a partial set of the new identifiers to be included in CBV 1.1" .
+
+
+
+dc:title dc:title "CBVVocab 1.1" .
+
+
+
+
+
+#################################################################
+#
+#    Datatypes
+#
+#################################################################
+
+
+###  http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral
+
+rdf:PlainLiteral rdf:type rdfs:Datatype .
+
+
+
+###  http://www.w3.org/2000/01/rdf-schema#Literal
+
+rdfs:Literal rdf:type rdfs:Datatype .
+
+
+
+###  http://www.w3.org/2001/XMLSchema#anyURI
+
+xsd:anyURI rdf:type rdfs:Datatype .
+
+
+
+###  http://www.w3.org/2001/XMLSchema#positiveInteger
+
+xsd:positiveInteger rdf:type rdfs:Datatype .
+
+
+
+###  http://www.w3.org/2001/XMLSchema#string
+
+xsd:string rdf:type rdfs:Datatype .
+
+
+
+
+
+#################################################################
+#
+#    Object Properties
+#
+#################################################################
+
+
+###  http://purl.org/cbv#hasSite
+
+:hasSite rdf:type owl:ObjectProperty ;
+         
+         owl:inverseOf :hasSubSite .
+
+
+
+###  http://purl.org/cbv#hasSubSite
+
+:hasSubSite rdf:type owl:ObjectProperty ;
+            
+            rdfs:domain :Site ;
+            
+            rdfs:range :SubSite .
+
+
+
+###  http://purl.org/cbv#hasSubSiteAttribute
+
+:hasSubSiteAttribute rdf:type owl:ObjectProperty .
+
+
+
+###  http://purl.org/cbv#hasSubSiteType
+
+:hasSubSiteType rdf:type owl:ObjectProperty .
+
+
+
+
+
+#################################################################
+#
+#    Data properties
+#
+#################################################################
+
+
+###  http://purl.org/cbv#hasLocationID
+
+:hasLocationID rdf:type owl:DatatypeProperty ;
+               
+               rdfs:domain :Site ;
+               
+               rdfs:range xsd:string .
+
+
+
+###  http://purl.org/cbv#hasNumericalCode
+
+:hasNumericalCode rdf:type owl:DatatypeProperty ,
+                           owl:FunctionalProperty ;
+                  
+                  rdfs:domain :SubSiteType ;
+                  
+                  rdfs:range xsd:positiveInteger .
+
+
+
+###  http://purl.org/cbv#hasSubSiteDetail
+
+:hasSubSiteDetail rdf:type owl:DatatypeProperty ;
+                  
+                  owl:equivalentProperty :ssd .
+
+
+
+###  http://purl.org/cbv#ssd
+
+:ssd rdf:type owl:DatatypeProperty .
+
+
+
+
+
+#################################################################
+#
+#    Classes
+#
+#################################################################
+
+
+###  http://purl.org/cbv#BusinessStep
+
+:BusinessStep rdf:type owl:Class ;
+              
+              rdfs:comment """ Denotes a specific activity within a business process. The business step field of an event specifies what business process step was taking place that caused the event to be captured. Example: an EPCIS event is generated as a product departs the location
+identified by the Read Point. Business Step = <The identifier that denotes“shipping”>
+""" .
+
+
+
+###  http://purl.org/cbv#Disposition
+
+:Disposition rdf:type owl:Class ;
+             
+             rdfs:comment """ Denotes the business state of an object. The disposition field of anevent specifies the business condition of the subject of the event (the things specified in the“what”
+dimension), subsequent to the event. The disposition is assumed to hold true until another event indicates a change of disposition.  Example: an EPCIS event is generated and afterward the products can be sold as-is and customers can access product for purchase. Disposition = <The identifier that denotes“sellable and accessible”> """ .
+
+
+
+###  http://purl.org/cbv#Site
+
+:Site rdf:type owl:Class ;
+      
+      owl:equivalentClass [ rdf:type owl:Restriction ;
+                            owl:onProperty :hasLocationID ;
+                            owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                            owl:onDataRange xsd:string
+                          ] .
+
+
+
+###  http://purl.org/cbv#SourceDestinationType
+
+:SourceDestinationType rdf:type owl:Class .
+
+
+
+###  http://purl.org/cbv#SubSite
+
+:SubSite rdf:type owl:Class ;
+         
+         owl:equivalentClass [ rdf:type owl:Class ;
+                               owl:intersectionOf ( [ rdf:type owl:Restriction ;
+                                                      owl:onProperty :hasSite ;
+                                                      owl:someValuesFrom :Site
+                                                    ]
+                                                    [ rdf:type owl:Restriction ;
+                                                      owl:onProperty :hasSubSiteType ;
+                                                      owl:someValuesFrom :SubSiteType
+                                                    ]
+                                                  )
+                             ] ;
+         
+         rdfs:subClassOf [ rdf:type owl:Restriction ;
+                           owl:onProperty :hasSubSiteAttribute ;
+                           owl:allValuesFrom :SubSiteAttribute
+                         ] ,
+                         [ rdf:type owl:Restriction ;
+                           owl:onProperty :hasSubSiteDetail ;
+                           owl:minCardinality "0"^^xsd:nonNegativeInteger
+                         ] ,
+                         [ rdf:type owl:Restriction ;
+                           owl:onProperty :hasSubSiteAttribute ;
+                           owl:minCardinality "0"^^xsd:nonNegativeInteger
+                         ] .
+
+
+
+###  http://purl.org/cbv#SubSiteAttribute
+
+:SubSiteAttribute rdf:type owl:Class .
+
+
+
+###  http://purl.org/cbv#SubSiteType
+
+:SubSiteType rdf:type owl:Class .
+
+
+
+###  http://purl.org/cbv#TransactionType
+
+:TransactionType rdf:type owl:Class ;
+                 
+                 rdfs:comment " Denotes a particular kind of business transaction. Example: the identifier that denotes “purchase order”. " .
+
+
+
+###  http://www.w3.org/2002/07/owl#Thing
+
+owl:Thing rdf:type owl:Class .
+
+
+
+
+
+#################################################################
+#
+#    Individuals
+#
+#################################################################
+
+
+###  http://purl.org/cbv#BackRoom
+
+:BackRoom rdf:type :SubSiteType ,
+                   owl:NamedIndividual ;
+          
+          :hasNumericalCode "201"^^xsd:positiveInteger ;
+          
+          rdfs:comment """An area within a store (all formats - club, etc) used to hold
+product until it is purchased or can be moved to the sales floor""" .
+
+
+
+###  http://purl.org/cbv#CargoTerminal
+
+:CargoTerminal rdf:type :SubSiteType ,
+                        owl:NamedIndividual ;
+               
+               :hasNumericalCode "215"^^xsd:positiveInteger ;
+               
+               rdfs:comment "An area where cargo may get transferred between carriers." .
+
+
+
+###  http://purl.org/cbv#ColdStorage
+
+:ColdStorage rdf:type :SubSiteAttribute ,
+                      owl:NamedIndividual ;
+             
+             :hasNumericalCode "402"^^xsd:positiveInteger ;
+             
+             rdfs:comment """A specific area or room that maintains a temperature above
+freezing but below ambient room temperature""" .
+
+
+
+###  http://purl.org/cbv#ContainerDeck
+
+:ContainerDeck rdf:type :SubSiteType ,
+                        owl:NamedIndividual ;
+               
+               :hasNumericalCode "214"^^xsd:positiveInteger ;
+               
+               rdfs:comment "An area on board a shipping vessel where containers are loaded." .
+
+
+
+###  http://purl.org/cbv#CustomerPickUpArea
+
+:CustomerPickUpArea rdf:type :SubSiteType ,
+                             owl:NamedIndividual ;
+                    
+                    :hasNumericalCode "212"^^xsd:positiveInteger ;
+                    
+                    rdfs:comment """An area designated at a store for customer to take possession of
+purchased product.""" .
+
+
+
+###  http://purl.org/cbv#Electronics
+
+:Electronics rdf:type :SubSiteAttribute ,
+                      owl:NamedIndividual ;
+             
+             :hasNumericalCode "401"^^xsd:positiveInteger ;
+             
+             rdfs:comment """A specific area within the store for holding electronic products
+such as TV's, DVD players, etc.""" .
+
+
+
+###  http://purl.org/cbv#Frozen
+
+:Frozen rdf:type :SubSiteAttribute ,
+                 owl:NamedIndividual ;
+        
+        :hasNumericalCode "402"^^xsd:positiveInteger ;
+        
+        rdfs:comment """A specific area or room that maintains a temperature at or below
+freezing""" .
+
+
+
+###  http://purl.org/cbv#PackagingArea
+
+:PackagingArea rdf:type :SubSiteType ,
+                        owl:NamedIndividual ;
+               
+               :hasNumericalCode "251"^^xsd:positiveInteger ;
+               
+               rdfs:comment "An area within a facility where product is packaged." .
+
+
+
+###  http://purl.org/cbv#PharmacyArea
+
+:PharmacyArea rdf:type :SubSiteType ,
+                       owl:NamedIndividual ;
+              
+              :hasNumericalCode "253"^^xsd:positiveInteger .
+
+
+
+###  http://purl.org/cbv#PickingArea
+
+:PickingArea rdf:type :SubSiteType ,
+                      owl:NamedIndividual ;
+             
+             :hasNumericalCode "252"^^xsd:positiveInteger ;
+             
+             rdfs:comment """An area within a facility in which product is picked to fulfill an
+order.""" .
+
+
+
+###  http://purl.org/cbv#ProductionArea
+
+:ProductionArea rdf:type :SubSiteType ,
+                         owl:NamedIndividual ;
+                
+                :hasNumericalCode "208"^^xsd:positiveInteger ;
+                
+                rdfs:comment """An area within a facility where the conversion of materials and
+or assembly of components to manufacture goods, products or
+services takes place.""" .
+
+
+
+###  http://purl.org/cbv#ReceivingArea
+
+:ReceivingArea rdf:type :SubSiteType ,
+                        owl:NamedIndividual ;
+               
+               :hasNumericalCode "209"^^xsd:positiveInteger ;
+               
+               rdfs:comment """An area within a facility where incoming merchandise is
+unloaded and checked for condition and completeness""" .
+
+
+
+###  http://purl.org/cbv#ReturnsArea
+
+:ReturnsArea rdf:type :SubSiteType ,
+                      owl:NamedIndividual ;
+             
+             :hasNumericalCode "207"^^xsd:positiveInteger ;
+             
+             rdfs:comment """An area within a facility for holding or consolidating product to
+be sent back to the supplier, shipper or designated location""" .
+
+
+
+###  http://purl.org/cbv#SalesFloor
+
+:SalesFloor rdf:type :SubSiteType ,
+                     owl:NamedIndividual ;
+            
+            :hasNumericalCode "203"^^xsd:positiveInteger ;
+            
+            rdfs:comment """An area within a store (all formats - club, etc) where product is
+displayed for customer purchase""" .
+
+
+
+###  http://purl.org/cbv#SalesFloorTransitionArea
+
+:SalesFloorTransitionArea rdf:type :SubSiteType ,
+                                   owl:NamedIndividual ;
+                          
+                          :hasNumericalCode "211"^^xsd:positiveInteger ;
+                          
+                          rdfs:comment """An area within a store between two physical locations (e.g.
+Backroom and Sales Floor) - used for a read point only""" .
+
+
+
+###  http://purl.org/cbv#Shelf
+
+:Shelf rdf:type :SubSiteAttribute ,
+                owl:NamedIndividual ;
+       
+       :hasNumericalCode "403"^^xsd:positiveInteger ;
+       
+       rdfs:comment "A specified internal location for holding product." .
+
+
+
+###  http://purl.org/cbv#ShippingArea
+
+:ShippingArea rdf:type :SubSiteType ,
+                       owl:NamedIndividual ;
+              
+              :hasNumericalCode "210"^^xsd:positiveInteger ;
+              
+              rdfs:comment """An area within a facility where outgoing merchandise is
+checked for condition and completeness and loaded onto a
+conveyance for transport""" .
+
+
+
+###  http://purl.org/cbv#StorageArea
+
+:StorageArea rdf:type :SubSiteType ,
+                      owl:NamedIndividual ;
+             
+             :hasNumericalCode "202"^^xsd:positiveInteger ;
+             
+             rdfs:comment """An area where product is kept within a facility to fulfill future
+need.""" .
+
+
+
+###  http://purl.org/cbv#Undefined
+
+:Undefined rdf:type :SubSiteType ,
+                    owl:NamedIndividual ;
+           
+           :hasNumericalCode "299"^^xsd:positiveInteger ;
+           
+           rdfs:comment "Any sub-site type not identified by any of the listed values" .
+
+
+
+###  http://purl.org/cbv#Yard
+
+:Yard rdf:type :SubSiteType ,
+               owl:NamedIndividual ;
+      
+      :hasNumericalCode "213"^^xsd:positiveInteger ;
+      
+      rdfs:comment """An area outside of the main building used for holding product
+(e.g. Trailer or container)""" .
+
+
+
+###  http://purl.org/cbv#accepting
+
+:accepting rdf:type :BusinessStep ,
+                    owl:NamedIndividual ;
+           
+           rdfs:comment """Denotes a specific activity within a business process where an object (i.e. product, shipment or asset) arrives into a location causing a change of 
+        possession and/or responsibility.""" .
+
+
+
+###  http://purl.org/cbv#active
+
+:active rdf:type :Disposition ,
+                 owl:NamedIndividual .
+
+
+
+###  http://purl.org/cbv#arriving
+
+:arriving rdf:type :BusinessStep ,
+                   owl:NamedIndividual ;
+          
+          rdfs:comment "Shipment is arriving at a location" .
+
+
+
+###  http://purl.org/cbv#assembling
+
+:assembling rdf:type :BusinessStep ,
+                     owl:NamedIndividual ;
+            
+            rdfs:comment """Denotes an activity within a business process whereby one or more trade item(s) or
+        identifiable component parts are combined with other objects creating a new
+        finished product. """ .
+
+
+
+###  http://purl.org/cbv#bol
+
+:bol rdf:type :TransactionType ,
+              owl:NamedIndividual .
+
+
+
+###  http://purl.org/cbv#collecting
+
+:collecting rdf:type :BusinessStep ,
+                     owl:NamedIndividual ;
+            
+            rdfs:comment """ Denotes a specific activity within a business process where an object (i.e.
+        product, asset, shipment or container) is picked up and collected for future
+        disposal, recycling or reused. """ .
+
+
+
+###  http://purl.org/cbv#commissioning
+
+:commissioning rdf:type :BusinessStep ,
+                        owl:NamedIndividual ;
+               
+               rdfs:comment """   Process of associating an EPC with a particular object (product, shipment, asset
+        or container). A tag may have been encoded and applied in this step, or may have
+        been previously encoded.  """ .
+
+
+
+###  http://purl.org/cbv#consigning
+
+:consigning rdf:type :BusinessStep ,
+                     owl:NamedIndividual ;
+            
+            rdfs:comment """Added in CBV 1.1. Indicates the overall process of staging_outbound, loading, departing, and accepting. 
+It may be used when more granular process step
+information is unknown or inaccessible. The use of consigning is
+mutually exclusive from the use of staging_outbound, loading, departing, and accepting. 
+Note: This business step is similar to shipping, but includes a change of possession and/or
+ownership at the outbound side""" .
+
+
+
+###  http://purl.org/cbv#container__closed
+
+:container__closed rdf:type :Disposition ,
+                            owl:NamedIndividual .
+
+
+
+###  http://purl.org/cbv#cycle_counting
+
+:cycle_counting rdf:type :BusinessStep ,
+                         owl:NamedIndividual ;
+                
+                rdfs:comment "Added in version 1.1" .
+
+
+
+###  http://purl.org/cbv#decommissioning
+
+:decommissioning rdf:type :BusinessStep ,
+                          owl:NamedIndividual ;
+                 
+                 rdfs:comment """ Process of disassociating an EPC with an object (i.e. product, shipment, asset or container). EPC may
+be re-commissioned at some point in the future and read again – however only with new
+information. """ .
+
+
+
+###  http://purl.org/cbv#departing
+
+:departing rdf:type :BusinessStep ,
+                    owl:NamedIndividual ;
+           
+           rdfs:comment "   Shipment is leaving a location on its way to a destination " .
+
+
+
+###  http://purl.org/cbv#desadv
+
+:desadv rdf:type :TransactionType ,
+                 owl:NamedIndividual .
+
+
+
+###  http://purl.org/cbv#destroyed
+
+:destroyed rdf:type :Disposition ,
+                    owl:NamedIndividual .
+
+
+
+###  http://purl.org/cbv#destroying
+
+:destroying rdf:type :BusinessStep ,
+                     owl:NamedIndividual ;
+            
+            rdfs:comment """ Process of terminating an object (i.e. product, shipment, asset or shipping
+        container) The object and its EPC should not be the subject of subsequent events
+        that require a physical observation; subsequent physical observations are likely
+        indicative of error (such as a stray read of a tag inside an incinerator)  """ .
+
+
+
+###  http://purl.org/cbv#disassembling
+
+:disassembling rdf:type :BusinessStep ,
+                        owl:NamedIndividual ;
+               
+               rdfs:comment """      Denotes a specific activity within a business process where a trade item is broken
+        down into separate, uniquely identified component parts.  """ .
+
+
+
+###  http://purl.org/cbv#encoded
+
+:encoded rdf:type :Disposition ,
+                  owl:NamedIndividual .
+
+
+
+###  http://purl.org/cbv#encoding
+
+:encoding rdf:type :BusinessStep ,
+                   owl:NamedIndividual .
+
+
+
+###  http://purl.org/cbv#entering_exiting
+
+:entering_exiting rdf:type :BusinessStep ,
+                           owl:NamedIndividual .
+
+
+
+###  http://purl.org/cbv#holding
+
+:holding rdf:type :BusinessStep ,
+                  owl:NamedIndividual .
+
+
+
+###  http://purl.org/cbv#in_progress
+
+:in_progress rdf:type :Disposition ,
+                      owl:NamedIndividual .
+
+
+
+###  http://purl.org/cbv#in_transit
+
+:in_transit rdf:type :Disposition ,
+                     owl:NamedIndividual .
+
+
+
+###  http://purl.org/cbv#inactive
+
+:inactive rdf:type :Disposition ,
+                   owl:NamedIndividual .
+
+
+
+###  http://purl.org/cbv#inspecting
+
+:inspecting rdf:type :BusinessStep ,
+                     owl:NamedIndividual .
+
+
+
+###  http://purl.org/cbv#installing
+
+:installing rdf:type :BusinessStep ,
+                     owl:NamedIndividual .
+
+
+
+###  http://purl.org/cbv#inv
+
+:inv rdf:type :TransactionType ,
+              owl:NamedIndividual .
+
+
+
+###  http://purl.org/cbv#killing
+
+:killing rdf:type :BusinessStep ,
+                  owl:NamedIndividual .
+
+
+
+###  http://purl.org/cbv#loading
+
+:loading rdf:type :BusinessStep ,
+                  owl:NamedIndividual .
+
+
+
+###  http://purl.org/cbv#non_sellable_damaged
+
+:non_sellable_damaged rdf:type :Disposition ,
+                               owl:NamedIndividual .
+
+
+
+###  http://purl.org/cbv#non_sellable_disposed
+
+:non_sellable_disposed rdf:type :Disposition ,
+                                owl:NamedIndividual .
+
+
+
+###  http://purl.org/cbv#non_sellable_expired
+
+:non_sellable_expired rdf:type :Disposition ,
+                               owl:NamedIndividual .
+
+
+
+###  http://purl.org/cbv#non_sellable_no_pedigree_match
+
+:non_sellable_no_pedigree_match rdf:type :Disposition ,
+                                         owl:NamedIndividual .
+
+
+
+###  http://purl.org/cbv#non_sellable_other
+
+:non_sellable_other rdf:type :Disposition ,
+                             owl:NamedIndividual .
+
+
+
+###  http://purl.org/cbv#non_sellable_record
+
+:non_sellable_record rdf:type :Disposition ,
+                              owl:NamedIndividual .
+
+
+
+###  http://purl.org/cbv#other
+
+:other rdf:type :BusinessStep ,
+                owl:NamedIndividual .
+
+
+
+###  http://purl.org/cbv#owning_party
+
+:owning_party rdf:type :SourceDestinationType ,
+                       owl:NamedIndividual ;
+              
+              rdfs:comment """Added in CBV 1.1, The source or destination identifier denotes the party who owns (or is intended to own) the objects at the originating endpoint or
+terminating endpoint (respectively) of the business transfer of which this EPCIS event is a part""" .
+
+
+
+###  http://purl.org/cbv#packing
+
+:packing rdf:type :BusinessStep ,
+                  owl:NamedIndividual .
+
+
+
+###  http://purl.org/cbv#pedigree
+
+:pedigree rdf:type :TransactionType ,
+                   owl:NamedIndividual .
+
+
+
+###  http://purl.org/cbv#picking
+
+:picking rdf:type :BusinessStep ,
+                  owl:NamedIndividual .
+
+
+
+###  http://purl.org/cbv#po
+
+:po rdf:type :TransactionType ,
+             owl:NamedIndividual .
+
+
+
+###  http://purl.org/cbv#poc
+
+:poc rdf:type :TransactionType ,
+              owl:NamedIndividual .
+
+
+
+###  http://purl.org/cbv#possessing_party
+
+:possessing_party rdf:type :SourceDestinationType ,
+                           owl:NamedIndividual ;
+                  
+                  rdfs:comment """The source or destination identifier denotes the party who
+has (or is intended to have) physical possession of the
+objects at the originating endpoint or terminating endpoint
+(respectively) of the business transfer of which this EPCIS
+event is a part.""" .
+
+
+
+###  http://purl.org/cbv#production_order
+
+:production_order rdf:type :TransactionType ,
+                           owl:NamedIndividual ;
+                  
+                  rdfs:comment "Added in version 1.1" .
+
+
+
+###  http://purl.org/cbv#recadv
+
+:recadv rdf:type :TransactionType ,
+                 owl:NamedIndividual .
+
+
+
+###  http://purl.org/cbv#receiving
+
+:receiving rdf:type :BusinessStep ,
+                    owl:NamedIndividual .
+
+
+
+###  http://purl.org/cbv#removing
+
+:removing rdf:type :BusinessStep ,
+                   owl:NamedIndividual .
+
+
+
+###  http://purl.org/cbv#repacking
+
+:repacking rdf:type :BusinessStep ,
+                    owl:NamedIndividual .
+
+
+
+###  http://purl.org/cbv#replacing
+
+:replacing rdf:type :BusinessStep ,
+                    owl:NamedIndividual .
+
+
+
+###  http://purl.org/cbv#reserved
+
+:reserved rdf:type :Disposition ,
+                   owl:NamedIndividual .
+
+
+
+###  http://purl.org/cbv#reserving
+
+:reserving rdf:type :BusinessStep ,
+                    owl:NamedIndividual .
+
+
+
+###  http://purl.org/cbv#retail_selling
+
+:retail_selling rdf:type :BusinessStep ,
+                         owl:NamedIndividual .
+
+
+
+###  http://purl.org/cbv#retail_sold
+
+:retail_sold rdf:type :Disposition ,
+                      owl:NamedIndividual .
+
+
+
+###  http://purl.org/cbv#returned
+
+:returned rdf:type :Disposition ,
+                   owl:NamedIndividual .
+
+
+
+###  http://purl.org/cbv#rma
+
+:rma rdf:type :TransactionType ,
+              owl:NamedIndividual .
+
+
+
+###  http://purl.org/cbv#sellable_accesible
+
+:sellable_accesible rdf:type :Disposition ,
+                             owl:NamedIndividual .
+
+
+
+###  http://purl.org/cbv#sellable_not_accessible
+
+:sellable_not_accessible rdf:type :Disposition ,
+                                  owl:NamedIndividual .
+
+
+
+###  http://purl.org/cbv#shipping
+
+:shipping rdf:type :BusinessStep ,
+                   owl:NamedIndividual .
+
+
+
+###  http://purl.org/cbv#stock_taking
+
+:stock_taking rdf:type :BusinessStep ,
+                       owl:NamedIndividual ;
+              
+              rdfs:comment "Added in version 1.1" .
+
+
+
+###  http://purl.org/cbv#stocking
+
+:stocking rdf:type :BusinessStep ,
+                   owl:NamedIndividual .
+
+
+
+###  http://purl.org/cbv#storing
+
+:storing rdf:type :BusinessStep ,
+                  owl:NamedIndividual .
+
+
+
+###  http://purl.org/cbv#transforming
+
+:transforming rdf:type :BusinessStep ,
+                       owl:NamedIndividual .
+
+
+
+###  http://purl.org/cbv#transporting
+
+:transporting rdf:type :BusinessStep ,
+                       owl:NamedIndividual ;
+              
+              rdfs:comment "Added in version 1.1" .
+
+
+
+###  http://purl.org/cbv#unknown
+
+:unknown rdf:type :Disposition ,
+                  owl:NamedIndividual .
+
+
+
+###  http://purl.org/cbv#unloading
+
+:unloading rdf:type :BusinessStep ,
+                    owl:NamedIndividual ;
+           
+           rdfs:comment "Added in version 1.1" .
+
+
+
+###  http://purl.org/cbv#unpacking
+
+:unpacking rdf:type :BusinessStep ,
+                    owl:NamedIndividual ;
+           
+           rdfs:comment "Added in version 1.1" .
+
+
+
+
+###  Generated by the OWL API (version 3.3.1957) http://owlapi.sourceforge.net
+
