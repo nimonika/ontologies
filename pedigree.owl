@@ -1,213 +1,228 @@
-@prefix : <http://www.purl.org/pedigree#> .
-@prefix dc: <http://purl.org/dc/elements/1.1/> .
-@prefix owl: <http://www.w3.org/2002/07/owl#> .
-@prefix ped: <http://www.purl.org/pedigree#> .
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix xml: <http://www.w3.org/XML/1998/namespace> .
-@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-@prefix prov: <http://www.w3.org/ns/prov#> .
-@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@base <http://purl.org/pedigree#> .
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY prov "http://www.w3.org/ns/prov#" >
+    <!ENTITY ped "http://www.purl.org/pedigree#" >
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY dc "http://purl.org/dc/elements/1.1/" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY xml "http://www.w3.org/XML/1998/namespace" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+]>
 
-<http://purl.org/pedigree#> rdf:type owl:Ontology ;
-                            
-                            owl:imports <http://protege.stanford.edu/plugins/owl/dc/protege-dc.owl> ,
-                                        prov: .
 
+<rdf:RDF xmlns="http://www.purl.org/pedigree#"
+     xml:base="http://www.purl.org/pedigree"
+     xmlns:dc="http://purl.org/dc/elements/1.1/"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:prov="http://www.w3.org/ns/prov#"
+     xmlns:ped="http://www.purl.org/pedigree#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace">
+    <owl:Ontology rdf:about="http://purl.org/pedigree#">
+        <owl:imports rdf:resource="http://protege.stanford.edu/plugins/owl/dc/protege-dc.owl"/>
+        <owl:imports rdf:resource="http://www.w3.org/ns/prov#"/>
+    </owl:Ontology>
+    
 
-#################################################################
-#
-#    Object Properties
-#
-#################################################################
 
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
 
-###  http://purl.org/pedigree#hasConsignmentInfo
+    
 
-<http://purl.org/pedigree#hasConsignmentInfo> rdf:type owl:FunctionalProperty ,
-                                                       owl:ObjectProperty ;
-                                              
-                                              rdfs:label "hasConsignmentInfo"@en ;
-                                              
-                                              rdfs:comment "The property identifies the set of EPCIS events related to the consignment for which the pedigree is created." .
 
+    <!-- http://purl.org/pedigree#hasConsignmentInfo -->
 
+    <owl:ObjectProperty rdf:about="http://purl.org/pedigree#hasConsignmentInfo">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:label xml:lang="en">hasConsignmentInfo</rdfs:label>
+        <rdfs:comment>The property identifies the set of EPCIS events related to the consignment for which the pedigree is created.</rdfs:comment>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/pedigree#hasPedigreeStatus -->
+
+    <owl:ObjectProperty rdf:about="http://purl.org/pedigree#hasPedigreeStatus">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:label xml:lang="en">hasPedigreeStatus</rdfs:label>
+        <rdfs:comment xml:lang="en">The property identfiies the creation status of the pedigree.</rdfs:comment>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/pedigree#hasProductInfo -->
+
+    <owl:ObjectProperty rdf:about="http://purl.org/pedigree#hasProductInfo">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:label xml:lang="en">hasProductInfo</rdfs:label>
+        <rdfs:comment xml:lang="en">The property identifies information about the products associated with the pedogree</rdfs:comment>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://purl.org/pedigree#hasReceivedPedigree -->
+
+    <owl:ObjectProperty rdf:about="http://purl.org/pedigree#hasReceivedPedigree">
+        <rdfs:label xml:lang="en">hasReceivedPedigree</rdfs:label>
+        <rdfs:comment xml:lang="en">The property associates a pedigree with any other pedigrees it has received from upstream or downstream partners.</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&prov;wasDerivedFrom"/>
+    </owl:ObjectProperty>
+    
 
-###  http://purl.org/pedigree#hasPedigreeStatus
 
-<http://purl.org/pedigree#hasPedigreeStatus> rdf:type owl:FunctionalProperty ,
-                                                      owl:ObjectProperty ;
-                                             
-                                             rdfs:label "hasPedigreeStatus"@en ;
-                                             
-                                             rdfs:comment "The property identfiies the creation status of the pedigree."@en .
+    <!-- http://purl.org/pedigree#hasTransactionInfo -->
 
+    <owl:ObjectProperty rdf:about="http://purl.org/pedigree#hasTransactionInfo">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:label xml:lang="en">hasTransactionInfo</rdfs:label>
+        <rdfs:comment xml:lang="en">The property identifies the set of EPCIS events related to the transactions for which the consignment  for which the pedigree is created.</rdfs:comment>
+    </owl:ObjectProperty>
+    
 
 
-###  http://purl.org/pedigree#hasProductInfo
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
 
-<http://purl.org/pedigree#hasProductInfo> rdf:type owl:FunctionalProperty ,
-                                                   owl:ObjectProperty ;
-                                          
-                                          rdfs:label "hasProductInfo"@en ;
-                                          
-                                          rdfs:comment "The property identifies information about the products associated with the pedogree"@en .
+    
 
 
+    <!-- http://purl.org/pedigree#hasSerialNumber -->
 
-###  http://purl.org/pedigree#hasReceivedPedigree
+    <owl:DatatypeProperty rdf:about="http://purl.org/pedigree#hasSerialNumber">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:label xml:lang="en">hasSerialNumber</rdfs:label>
+        <rdfs:comment xml:lang="en">This property identifies the serial number of the pedigree</rdfs:comment>
+    </owl:DatatypeProperty>
+    
 
-<http://purl.org/pedigree#hasReceivedPedigree> rdf:type owl:ObjectProperty ;
-                                               
-                                               rdfs:label "hasReceivedPedigree"@en ;
-                                               
-                                               rdfs:comment "The property associates a pedigree with any other pedigrees it has received from upstream or downstream partners."@en ;
-                                               
-                                               rdfs:subPropertyOf prov:wasDerivedFrom .
 
+    <!-- http://purl.org/pedigree#pedigreeCreationTime -->
 
+    <owl:DatatypeProperty rdf:about="http://purl.org/pedigree#pedigreeCreationTime">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:label>Pedigree creation time</rdfs:label>
+        <rdfs:comment xml:lang="en">The property specifies the creation time of the pedigree.</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="&prov;generatedAtTime"/>
+    </owl:DatatypeProperty>
+    
 
-###  http://purl.org/pedigree#hasTransactionInfo
 
-<http://purl.org/pedigree#hasTransactionInfo> rdf:type owl:FunctionalProperty ,
-                                                       owl:ObjectProperty ;
-                                              
-                                              rdfs:label "hasTransactionInfo"@en ;
-                                              
-                                              rdfs:comment "The property identifies the set of EPCIS events related to the transactions for which the consignment  for which the pedigree is created."@en .
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
 
+    
 
 
+    <!-- http://purl.org/pedigree#Pedigree -->
 
+    <owl:Class rdf:about="http://purl.org/pedigree#Pedigree">
+        <rdfs:label xml:lang="en">Pedigree</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&prov;Entity"/>
+        <rdfs:subClassOf>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://purl.org/pedigree#hasPedigreeStatus"/>
+                        <owl:onClass rdf:resource="http://purl.org/pedigree#PedigreeStatus"/>
+                        <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://purl.org/pedigree#hasSerialNumber"/>
+                        <owl:cardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:cardinality>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </rdfs:subClassOf>
+        <dc:date rdf:datatype="&xsd;dateTimeStamp"></dc:date>
+        <dc:creator rdf:datatype="&xsd;string"></dc:creator>
+        <rdfs:comment>A pedigree is an information artifact for exchanging traceability information between supply chain trading partners.</rdfs:comment>
+    </owl:Class>
+    
 
-#################################################################
-#
-#    Data properties
-#
-#################################################################
 
+    <!-- http://purl.org/pedigree#PedigreeCreationService -->
 
-###  http://purl.org/pedigree#creationTime
+    <owl:Class rdf:about="http://purl.org/pedigree#PedigreeCreationService">
+        <rdfs:subClassOf rdf:resource="&prov;Activity"/>
+    </owl:Class>
+    
 
-<http://purl.org/pedigree#creationTime> rdf:type owl:DatatypeProperty ,
-                                                 owl:FunctionalProperty ;
-                                        
-                                        rdfs:label "creationTime" ;
-                                        
-                                        rdfs:comment "The property specifies the creation time of the pedigree."@en ;
-                                        
-                                        rdfs:subPropertyOf prov:generatedAtTime .
 
+    <!-- http://purl.org/pedigree#PedigreeCreator -->
 
+    <owl:Class rdf:about="http://purl.org/pedigree#PedigreeCreator">
+        <rdfs:subClassOf rdf:resource="&prov;Organization"/>
+    </owl:Class>
+    
 
-###  http://purl.org/pedigree#hasSerialNumber
 
-<http://purl.org/pedigree#hasSerialNumber> rdf:type owl:DatatypeProperty ,
-                                                    owl:FunctionalProperty ;
-                                           
-                                           rdfs:label "hasSerialNumber"@en ;
-                                           
-                                           rdfs:comment "This property identifies the serial number of the pedigree"@en .
+    <!-- http://purl.org/pedigree#PedigreeStatus -->
 
+    <owl:Class rdf:about="http://purl.org/pedigree#PedigreeStatus">
+        <rdfs:label xml:lang="en">PedigreeStatus</rdfs:label>
+    </owl:Class>
+    
 
 
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
 
+    
 
-#################################################################
-#
-#    Classes
-#
-#################################################################
 
+    <!-- http://purl.org/pedigree#Final -->
 
-###  http://purl.org/pedigree#Pedigree
+    <owl:NamedIndividual rdf:about="http://purl.org/pedigree#Final">
+        <rdf:type rdf:resource="http://purl.org/pedigree#PedigreeStatus"/>
+        <rdfs:label xml:lang="en">Final</rdfs:label>
+    </owl:NamedIndividual>
+    
 
-<http://purl.org/pedigree#Pedigree> rdf:type owl:Class ;
-                                    
-                                    rdfs:label "Pedigree"@en ;
-                                    
-                                    rdfs:subClassOf prov:Entity ,
-                                                    [ rdf:type owl:Class ;
-                                                      owl:intersectionOf ( [ rdf:type owl:Restriction ;
-                                                                             owl:onProperty <http://purl.org/pedigree#hasPedigreeStatus> ;
-                                                                             owl:onClass <http://purl.org/pedigree#PedigreeStatus> ;
-                                                                             owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger
-                                                                           ]
-                                                                           [ rdf:type owl:Restriction ;
-                                                                             owl:onProperty <http://purl.org/pedigree#hasSerialNumber> ;
-                                                                             owl:cardinality "1"^^xsd:nonNegativeInteger
-                                                                           ]
-                                                                         )
-                                                    ] ;
-                                    
-                                    dc:date ""^^xsd:dateTimeStamp ;
-                                    
-                                    dc:creator ""^^xsd:string ;
-                                    
-                                    rdfs:comment "A pedigree is an information artifact for exchanging traceability information between supply chain trading partners." .
 
+    <!-- http://purl.org/pedigree#Initial -->
 
+    <owl:NamedIndividual rdf:about="http://purl.org/pedigree#Initial">
+        <rdf:type rdf:resource="http://purl.org/pedigree#PedigreeStatus"/>
+        <rdfs:label xml:lang="en">Initial</rdfs:label>
+    </owl:NamedIndividual>
+    
 
-###  http://purl.org/pedigree#PedigreeCreationService
 
-<http://purl.org/pedigree#PedigreeCreationService> rdf:type owl:Class ;
-                                                   
-                                                   rdfs:subClassOf prov:Activity .
+    <!-- http://purl.org/pedigree#Intermediate -->
 
+    <owl:NamedIndividual rdf:about="http://purl.org/pedigree#Intermediate">
+        <rdf:type rdf:resource="http://purl.org/pedigree#PedigreeStatus"/>
+        <rdfs:label xml:lang="en">Intermediate</rdfs:label>
+    </owl:NamedIndividual>
+</rdf:RDF>
 
 
-###  http://purl.org/pedigree#PedigreeCreator
 
-<http://purl.org/pedigree#PedigreeCreator> rdf:type owl:Class ;
-                                           
-                                           rdfs:subClassOf prov:Organization .
-
-
-
-###  http://purl.org/pedigree#PedigreeStatus
-
-<http://purl.org/pedigree#PedigreeStatus> rdf:type owl:Class ;
-                                          
-                                          rdfs:label "PedigreeStatus"@en .
-
-
-
-
-
-#################################################################
-#
-#    Individuals
-#
-#################################################################
-
-
-###  http://purl.org/pedigree#Final
-
-<http://purl.org/pedigree#Final> rdf:type <http://purl.org/pedigree#PedigreeStatus> ,
-                                          owl:NamedIndividual ;
-                                 
-                                 rdfs:label "Final"@en .
-
-
-
-###  http://purl.org/pedigree#Initial
-
-<http://purl.org/pedigree#Initial> rdf:type <http://purl.org/pedigree#PedigreeStatus> ,
-                                            owl:NamedIndividual ;
-                                   
-                                   rdfs:label "Initial"@en .
-
-
-
-###  http://purl.org/pedigree#Intermediate
-
-<http://purl.org/pedigree#Intermediate> rdf:type <http://purl.org/pedigree#PedigreeStatus> ,
-                                                 owl:NamedIndividual ;
-                                        
-                                        rdfs:label "Intermediate"@en .
-
-
-
-
-###  Generated by the OWL API (version 3.4.2) http://owlapi.sourceforge.net
+<!-- Generated by the OWL API (version 3.4.2) http://owlapi.sourceforge.net -->
 
