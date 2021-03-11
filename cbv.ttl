@@ -9,7 +9,7 @@
 
 <http://purl.org/cbv> rdf:type owl:Ontology ;
                       
-                      owl:imports <http://protege.stanford.edu/plugins/owl/dc/protege-dc.owl> .
+                      owl:imports <http://protege.stanford.edu/plugins/owl/dc/protege-dc.owl> ;
 
 
 #################################################################
