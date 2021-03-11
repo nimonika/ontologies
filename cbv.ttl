@@ -17,9 +17,10 @@
 #    Annotation properties
 #
 #################################################################
-dc:creator "Monika Solanki(m.solanki@aston.ac.uk)" .
-owl:versionInfo "1.1" .
-rdfs:comment "The CBVVocab is an OWL ontology that captures the identifiers in CBV 1.0 specification. (http://www.gs1.org/gsmp/kc/epcglobal/cbv/cbv_1_0-standard-20101013.pdf). The current version, CBVVocab 1.1, includes a partial set of the new identifiers to be included in CBV 1.1" .
+dc:creator "Monika Solanki(m.solanki@aston.ac.uk)" ;
+owl:versionInfo "1.1" ;
+rdfs:comment "The CBVVocab is an OWL ontology that captures the identifiers in CBV 1.0 specification. (http://www.gs1.org/gsmp/kc/epcglobal/cbv/cbv_1_0-standard-20101013.pdf). 
+The current version, CBVVocab 1.1, includes a partial set of the new identifiers to be included in CBV 1.1" ;
 dc:title "CBVVocab 1.1" .
 #################################################################
 #
