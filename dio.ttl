@@ -21,32 +21,8 @@ DIO makes few assumptions about the design process used as the definitions of th
                          owl:versionInfo "1.1.000"^^xsd:string .
 
 #################################################################
-#    Annotation properties
-#################################################################
-
-###  http://purl.org/dc/elements/1.1/creator
-dc:creator rdf:type owl:AnnotationProperty .
-
-
-###  http://purl.org/dc/elements/1.1/date
-dc:date rdf:type owl:AnnotationProperty .
-
-
-###  http://purl.org/dc/elements/1.1/description
-dc:description rdf:type owl:AnnotationProperty .
-
-
-###  http://purl.org/dc/elements/1.1/title
-dc:title rdf:type owl:AnnotationProperty .
-
-
-#################################################################
 #    Object Properties
 #################################################################
-
-###  http://www.w3.org/ns/prov#wasAttributedTo
-<http://www.w3.org/ns/prov#wasAttributedTo> rdf:type owl:ObjectProperty .
-
 
 ###  https://w3id.org/dio#addressedBy
 dio:addressedBy rdf:type owl:ObjectProperty ;
